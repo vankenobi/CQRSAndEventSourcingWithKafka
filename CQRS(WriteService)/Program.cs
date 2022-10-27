@@ -1,4 +1,5 @@
 using CQRS.Infrastructure.Context;
+using CQRS_WriteService_.EventSourcing;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PsqlContext>(options => options.UseNpgsql(Configuration.ConnectionString), ServiceLifetime.Transient);
+builder.Services.AddTransient<IEvent, Event>();
 
 var app = builder.Build();
 
