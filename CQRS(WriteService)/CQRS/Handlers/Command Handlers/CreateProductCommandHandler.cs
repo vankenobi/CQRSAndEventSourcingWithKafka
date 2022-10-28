@@ -3,6 +3,7 @@ using CQRS.CQRS.Commands.Response;
 using CQRS.Infrastructure.Context;
 using CQRS.Infrastructure.Model;
 using CQRS_WriteService_.EventSourcing;
+using CQRS_WriteService_.EventSourcing.EventResponse;
 using MediatR;
 
 namespace CQRS.CQRS.Handlers.Command_Handlers
@@ -35,7 +36,7 @@ namespace CQRS.CQRS.Handlers.Command_Handlers
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            _event.Created(newProduct,"product"); // sending event 
+            _event.Created(new ProductEvent { CrudType = "Add", Product = newProduct },"product"); // sending event 
 
             return new CreateProductCommandResponse
             {

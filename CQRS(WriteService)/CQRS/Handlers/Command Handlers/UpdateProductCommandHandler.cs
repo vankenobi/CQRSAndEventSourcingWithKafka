@@ -2,6 +2,8 @@
 using CQRS.CQRS.Commands.Response;
 using CQRS.Infrastructure.Context;
 using CQRS.Infrastructure.Model;
+using CQRS_WriteService_.EventSourcing;
+using CQRS_WriteService_.EventSourcing.EventResponse;
 using MediatR;
 using System.Data.Entity;
 
@@ -10,37 +12,33 @@ namespace CQRS.CQRS.Handlers.Command_Handlers
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommandRequest, UpdateProductCommandResponse>
     {
         private readonly PsqlContext _context;
-        public UpdateProductCommandHandler(PsqlContext context)
+        private readonly IEvent _event;
+
+        public UpdateProductCommandHandler(PsqlContext context, IEvent eve)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _event = eve;
         }
         public async Task<UpdateProductCommandResponse> Handle(UpdateProductCommandRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var hasEntity = _context.Products.Where(x => x.Id == request.Id).FirstOrDefault();
+                var product = _context.Products.FirstOrDefault(x => x.Id == request.Id);
 
-                if (hasEntity != null)
-                {
-
-                    hasEntity.Id = request.Id;
-                    hasEntity.Name = request.Name;
-                    hasEntity.Price = request.Price;
-                    hasEntity.Quantity = request.Quantity;
-                   
-                    _context.Products.Update(hasEntity);
-
-                    await _context.SaveChangesAsync(cancellationToken);
-
-                    return new UpdateProductCommandResponse() { IsSuccess = true };
-                }
-
-                else
-                {
+                if (product == null)
                     return new UpdateProductCommandResponse() { IsSuccess = false };
-                }
 
-                return new UpdateProductCommandResponse() { IsSuccess = false };
+                product.Id = request.Id;
+                product.Name = request.Name;
+                product.Price = request.Price;
+                product.Quantity = request.Quantity;
+
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                _event.Updated(new ProductEvent() { CrudType = "Update", Product = product },"product");
+
+                return new UpdateProductCommandResponse() { IsSuccess = true };
             }
             catch (Exception)
             {

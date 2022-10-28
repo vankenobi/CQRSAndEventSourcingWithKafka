@@ -1,11 +1,12 @@
 ﻿using CQRS.Infrastructure.Model;
+using CQRS_WriteService_.EventSourcing.EventResponse;
 
 namespace CQRS_WriteService_.EventSourcing
 {
     public interface IEvent
     {
-        bool Created(Product product, string topic);
-        bool Deleted(Guid id, string topic);
-        bool Updated(Product product, string topic);
+        bool Created(ProductEvent productEvent, string topic);
+        bool Deleted(ProductEvent productEvent, string topic);
+        bool Updated(ProductEvent productEvent, string topic);
     }
 }
