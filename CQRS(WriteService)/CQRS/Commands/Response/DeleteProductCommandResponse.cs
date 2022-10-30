@@ -1,4 +1,4 @@
-﻿namespace CQRS.CQRS.Commands.Response
+﻿namespace CQRS.CQRSWriteServive.Commands.Response
 {
     public class DeleteProductCommandResponse
     {

@@ -1,5 +1,5 @@
-﻿using CQRS.CQRS.Commands.Request;
-using CQRS.CQRS.Commands.Response;
+﻿using CQRS.CQRSWriteServive.Commands.Request;
+using CQRS.CQRSWriteServive.Commands.Response;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

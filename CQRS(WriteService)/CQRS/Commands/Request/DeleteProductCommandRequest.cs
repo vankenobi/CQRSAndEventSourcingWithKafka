@@ -1,7 +1,7 @@
-﻿using CQRS.CQRS.Commands.Response;
+﻿using CQRS.CQRSWriteServive.Commands.Response;
 using MediatR;
 
-namespace CQRS.CQRS.Commands.Request
+namespace CQRS.CQRSWriteServive.Commands.Request
 {
     public class DeleteProductCommandRequest : IRequest<DeleteProductCommandResponse>
     {

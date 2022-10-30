@@ -1,5 +1,5 @@
-﻿using CQRS.CQRS.Commands.Request;
-using CQRS.CQRS.Commands.Response;
+﻿using CQRS.CQRSWriteServive.Commands.Request;
+using CQRS.CQRSWriteServive.Commands.Response;
 using CQRS.Infrastructure.Context;
 using CQRS.Infrastructure.Model;
 using CQRS_WriteService_.EventSourcing;
